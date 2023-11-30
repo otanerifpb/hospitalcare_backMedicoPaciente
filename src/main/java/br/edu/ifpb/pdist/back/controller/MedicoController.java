@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
-@CrossOrigin(origins = "https://hospitalview-8171b04dfdb4.herokuapp.com")
+//@CrossOrigin(origins = "https://hospitalview-8171b04dfdb4.herokuapp.com")
 @RequestMapping("/medico")
 public class MedicoController {
 
@@ -42,12 +42,12 @@ public class MedicoController {
     }
 
     // Rota para acessar o formunário
-    // @RequestMapping("/formMedico")
-    // public ModelAndView getFormMedico(Medico medico, ModelAndView mav) {
-    //     mav.addObject("medico", medico);
-    //     mav.setViewName("medico/formMedico");
-    //     return mav;
-    // }
+    @RequestMapping("/formMedico")
+    public ModelAndView getFormMedico(Medico medico, ModelAndView mav) {
+        mav.addObject("medico", medico);
+        mav.setViewName("medico/formMedico");
+        return mav;
+    }
 
     // Rota para cadastrar um Médico no Sitema
     @RequestMapping(value="/save", method = RequestMethod.POST)
