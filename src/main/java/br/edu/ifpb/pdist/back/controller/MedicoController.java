@@ -23,10 +23,10 @@ public class MedicoController {
     private MedicoRepository medicoRepository;
    
     // Ativa o menu Médico na barra de navegação
-    @ModelAttribute("menu")
-    public String activeMenu(){
-        return "medico";
-    }
+    // @ModelAttribute("menu")
+    // public String activeMenu(){
+    //     return "medico";
+    // }
 
     // Rota para acessar a lista pelo menu
     @RequestMapping(method = RequestMethod.GET)
@@ -42,12 +42,12 @@ public class MedicoController {
     }
 
     // Rota para acessar o formunário
-    @RequestMapping("/formMedico")
-    public ModelAndView getFormMedico(Medico medico, ModelAndView mav) {
-        mav.addObject("medico", medico);
-        mav.setViewName("medico/formMedico");
-        return mav;
-    }
+    // @RequestMapping("/formMedico")
+    // public ModelAndView getFormMedico(Medico medico, ModelAndView mav) {
+    //     mav.addObject("medico", medico);
+    //     mav.setViewName("medico/formMedico");
+    //     return mav;
+    // }
 
     // Rota para cadastrar um Médico no Sitema
     @RequestMapping(value="/save", method = RequestMethod.POST)

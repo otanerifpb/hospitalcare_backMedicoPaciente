@@ -28,10 +28,10 @@ public class PacienteController {
     private PacienteRepository pacienteRepository;
     
      // Ativa o menu Paciente na barra de navegação
-    @ModelAttribute("menu")
-    public String activeMenu(){
-        return "paciente";
-    }
+    // @ModelAttribute("menu")
+    // public String activeMenu(){
+    //     return "paciente";
+    // }
 
     // Rota para acessar a lista pelo menu
     @RequestMapping(method = RequestMethod.GET)
@@ -47,12 +47,12 @@ public class PacienteController {
     }
 
     // Rota para acessar o formunário
-    @RequestMapping("/formPaciente")
-    public ModelAndView getFormPaciente(Paciente paciente, ModelAndView mav) {
-        mav.addObject("paciente", paciente);
-        mav.setViewName("paciente/formPaciente");
-        return mav;
-    }
+    // @RequestMapping("/formPaciente")
+    // public ModelAndView getFormPaciente(Paciente paciente, ModelAndView mav) {
+    //     mav.addObject("paciente", paciente);
+    //     mav.setViewName("paciente/formPaciente");
+    //     return mav;
+    // }
 
     // Rota para cadastrar um Paciente no Sitema
     @RequestMapping(value="/save", method = RequestMethod.POST)
