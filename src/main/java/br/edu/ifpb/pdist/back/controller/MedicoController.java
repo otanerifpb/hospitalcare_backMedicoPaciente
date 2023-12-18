@@ -1,8 +1,15 @@
 package br.edu.ifpb.pdist.back.controller;
 
 import br.edu.ifpb.pdist.back.model.Medico;
+import br.edu.ifpb.pdist.back.model.Paciente;
+import br.edu.ifpb.pdist.back.rabbitmq.Producer;
 import br.edu.ifpb.pdist.back.repository.MedicoRepository;
+import br.edu.ifpb.pdist.back.repository.PacienteRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +27,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MedicoController {
 
     @Autowired
+    private Producer producer;
+
+    @Autowired
     private MedicoRepository medicoRepository;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
    
     // Ativa o menu Médico na barra de navegação
     // @ModelAttribute("menu")
@@ -29,6 +42,7 @@ public class MedicoController {
     // }
 
     // Rota para acessar a lista pelo menu
+    @Cacheable(value = "medicos")
     @RequestMapping(method = RequestMethod.GET)
     public List<Medico> listAll(ModelAndView mav) {
         List<Medico> opMedicos = medicoRepository.findAll();
@@ -40,6 +54,13 @@ public class MedicoController {
     public List<Medico> listAll(Model model) {
        return medicoRepository.findAll();
     }
+
+    @Caching(
+                evict = {
+                        @CacheEvict(value = "medicos", allEntries = true)
+                    }
+    )
+
 
     // Rota para acessar o formunário
     // @RequestMapping("/formMedico")
@@ -85,6 +106,18 @@ public class MedicoController {
         if (OpMedico.isPresent()){
             Medico medico = OpMedico.get();
             medicoRepository.delete(medico);
+        }
+    }
+
+    @GetMapping("/paciente/{id}")
+    public void consultarPaciente(@PathVariable int id) {
+        Paciente paciente = pacienteRepository.findById(id).get();
+        System.out.println(paciente.getNome());
+        try {
+            String message = "O paciente " + " " + paciente.getNome() +" " + " Foi consultado"; 
+            producer.message(message);
+        } catch (Exception e) {
+            // TODO: handle exception
         }
     }
 }
