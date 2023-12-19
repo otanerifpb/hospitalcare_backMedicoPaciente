@@ -55,11 +55,9 @@ public class MedicoController {
        return medicoRepository.findAll();
     }
 
-    @Caching(
-                evict = {
-                        @CacheEvict(value = "medicos", allEntries = true)
-                    }
-    )
+    @Caching( evict = {
+        @CacheEvict(value = "medicos", allEntries = true)
+    })
 
 
     // Rota para acessar o formunário
@@ -109,6 +107,7 @@ public class MedicoController {
         }
     }
 
+    // Rota para mensageria
     @GetMapping("/paciente/{id}")
     public void consultarPaciente(@PathVariable int id) {
         Paciente paciente = pacienteRepository.findById(id).get();
